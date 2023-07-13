@@ -1,6 +1,4 @@
-# Emploee-StackMean
+## 3-columns-inventory
 
-Here I am practicing on a Stack Mean App.
-The source code is from Fazt Web. 
-I've been writing step by step, updating and commenting this app.
-Update at 24/12/2022
+Cloned from https://github.com/m32795434/Employee-StackMean.git
+Working on a 3-columns-inventary
