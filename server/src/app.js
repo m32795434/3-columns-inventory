@@ -10,6 +10,7 @@ const app = express();
 // process.env.PORT: if in the O.S. there is a port defined for this app, it uses that; if not, it uses the 3000 
 app.set('port', process.env.PORT || 3000);
 
+// Middleware
 //app.use(cors({origin: http://localhost:4200})) if we want to allow connections only from this port (Angular).
 app.use(cors());
 app.use(morgan('dev'));
@@ -19,8 +20,7 @@ app.use(express.json());
 //so my app can parse urlencoded when data comes from html forms, for example.
 //app.use(express.urlencoded({ extended: false }));
 
-// prefijos y carga de rutas en la app
-app.use("/api/employees" ,require('./routes/employees.routes'));
-app.use("/api/contacto" ,require('./routes/contacto.routes'));
+// Routes
+app.use('/api/records', require('./routes/records.routes'));
 
 module.exports = app;

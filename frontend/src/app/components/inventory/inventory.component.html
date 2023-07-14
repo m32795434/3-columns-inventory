@@ -1,0 +1,59 @@
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <form #inventoryForm="ngForm" (ngSubmit)="addRecord(inventoryForm)">
+                    <input type="hidden" name="_id" #name="ngModel" [(ngModel)]="inventoryService.selectedRecord._id">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="description" #name="ngModel"
+                            placeholder="Description" [(ngModel)]="inventoryService.selectedRecord.description"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" name="debit" #name="ngModel" placeholder="Debit"
+                            [(ngModel)]="inventoryService.selectedRecord.debit" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" name="credit" #name="ngModel" placeholder="Credit"
+                            [(ngModel)]="inventoryService.selectedRecord.credit" required>
+                    </div>
+                    <button class="btn btn-primary mr-2" type="reset">
+                        Clear
+                    </button>
+                    <button type="submit" class="btn btn-secondary">
+                        Save
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Debit</th>
+                    <th>Credit</th>
+                    <th>Balance</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let record of inventoryService.records">
+                    <td>{{ record.description }}</td>
+                    <td>{{ record.debit }}</td>
+                    <td>{{ record.credit }}</td>
+                    <td>{{ calculateBalance(record) }}</td>
+                    <td>
+                        <button class="btn btn-secondary btn-sm" (click)="editRecord(record)">
+                            <i class="material-icons">edit</i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" (click)="deleteRecord(record._id)">
+                            <i class="material-icons">delete</i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
