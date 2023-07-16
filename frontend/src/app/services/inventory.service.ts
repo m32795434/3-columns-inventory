@@ -8,12 +8,7 @@ import { Record } from '../models/record';
 export class InventoryService {
   URL_API = 'http://localhost:3000/api/records';
 
-  selectedRecord: Record = {
-    _id: '',
-    description: '',
-    debit: 0,
-    credit: 0,
-  };
+  selectedRecord: Record = emptyRecord;
 
   records!: Record[];
 
@@ -35,3 +30,9 @@ export class InventoryService {
     return this.http.delete(`${this.URL_API}/${_id}`);
   }
 }
+const emptyRecord = {
+  _id: '',
+  description: '',
+  debit: 0,
+  credit: 0,
+};

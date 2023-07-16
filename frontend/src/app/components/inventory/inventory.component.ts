@@ -26,7 +26,12 @@ export class InventoryComponent implements OnInit {
   addRecord(form: NgForm) {
     if (this.inventoryService.selectedRecord._id) {
       this.inventoryService.updateRecord(form.value).subscribe({
-        next: (res) => console.log(res),
+        next: (res) => 
+        {
+          console.log(res);
+          this.inventoryService.selectedRecord =emptyReg;
+        }
+        ,
         error: (err) => console.error(err),
       });
     } else {
@@ -66,3 +71,10 @@ export class InventoryComponent implements OnInit {
     return record.debit - record.credit;
   }
 }
+
+const emptyReg = {
+  _id: '',
+  description: '',
+  debit: 0,
+  credit: 0,
+};
