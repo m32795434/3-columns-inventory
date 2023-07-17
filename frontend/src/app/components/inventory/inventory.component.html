@@ -43,7 +43,7 @@
                     <td>{{ record.description }}</td>
                     <td>{{ record.debit }}</td>
                     <td>{{ record.credit }}</td>
-                    <td>{{ calculateBalance(record) }}</td>
+                    <td>{{ calculateBalance(inventoryService.records, record) }}</td>
                     <td>
                         <button class="btn btn-secondary btn-sm" (click)="editRecord(record)">
                             <i class="material-icons">edit</i>

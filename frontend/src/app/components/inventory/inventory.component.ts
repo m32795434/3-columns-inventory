@@ -10,6 +10,8 @@ import { Record } from 'src/app/models/record';
 export class InventoryComponent implements OnInit {
   constructor(public inventoryService: InventoryService) {}
 
+protected balance = 0;
+
   ngOnInit(): void {
     this.getRecords();
   }
@@ -64,11 +66,15 @@ export class InventoryComponent implements OnInit {
     this.inventoryService.selectedRecord = record;
   }
 
-  calculateBalance(record: Record) {
-    // Implement your logic to calculate the balance based on debit and credit values
-    // and return the calculated balance.
-    // You can access other records and their balances from inventoryService.records.
-    return record.debit - record.credit;
+  calculateBalance(records: Record[], record: Record) {
+    const index = records.indexOf(record);
+    let balance = 0;
+
+    for (let i = 0; i <= index; i++) {
+      balance += records[i].debit - records[i].credit;
+    }
+
+    return balance;
   }
 }
 
