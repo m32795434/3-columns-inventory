@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { InventoryService } from '../../services/inventory.service';
 import { NgForm } from '@angular/forms';
 import { Record } from 'src/app/models/record';
+import html2pdf from 'html2pdf.js';
 
 @Component({
   selector: 'app-inventory',
@@ -11,7 +12,7 @@ export class InventoryComponent implements OnInit {
   constructor(public inventoryService: InventoryService) {}
 
 protected balance = 0;
-
+protected hideAll= false;
   ngOnInit(): void {
     this.getRecords();
   }
@@ -76,6 +77,27 @@ protected balance = 0;
 
     return balance;
   }
+  saveAsPdf(){
+    const tableElement = document.querySelector('.table') as HTMLElement;
+    console.log(tableElement)
+    html2pdf()
+      .from(tableElement)
+      .set(pdfOptions)
+      .save();
+  }
+  printTable(){
+  this.hideAll = true;
+  
+  const tableElement = document.querySelector('.table') as HTMLElement;
+  const printContainer = document.createElement('div');
+  printContainer.classList.add('print-container');
+  printContainer.appendChild(tableElement.cloneNode(true));
+  document.body.appendChild(printContainer);
+  window.print();
+  this.hideAll = false;
+  document.body.removeChild(printContainer);
+  }
+
 }
 
 const emptyReg = {
@@ -83,4 +105,11 @@ const emptyReg = {
   description: '',
   debit: 0,
   credit: 0,
+};
+const pdfOptions = {
+  margin: 10,
+  filename: 'table.pdf',
+  image: { type: 'jpeg', quality: 0.98 },
+  html2canvas: { scale: 2 },
+  jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
 };

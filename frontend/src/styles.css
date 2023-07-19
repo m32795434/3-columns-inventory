@@ -4,3 +4,9 @@
 i {
     color: #444;
 }
+
+.print-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
