@@ -93,8 +93,8 @@ export class InventoryComponent implements OnInit {
 const emptyReg = {
   _id: '',
   description: '',
-  debit: 0,
-  credit: 0,
+  debit: null,
+  credit: null,
 };
 const pdfOptions = {
   margin: 10,

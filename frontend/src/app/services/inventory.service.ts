@@ -8,11 +8,11 @@ import { Record } from '../models/record';
 export class InventoryService {
   URL_API = 'http://localhost:3000/api/records';
 
-  selectedRecord: Record = emptyRecord;
+  selectedRecord: any = emptyRecord;
 
   records!: Record[];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getRecords() {
     return this.http.get<Record[]>(this.URL_API);
@@ -33,6 +33,6 @@ export class InventoryService {
 const emptyRecord = {
   _id: '',
   description: '',
-  debit: 0,
-  credit: 0,
+  debit: null,
+  credit: null,
 };
