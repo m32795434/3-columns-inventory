@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { InventoryService } from '../../services/inventory.service';
 import { NgForm } from '@angular/forms';
 import { Record } from 'src/app/models/record';
 import html2pdf from 'html2pdf.js';
+import { InventoryService } from '../../services/inventory.service';
 
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
 })
 export class InventoryComponent implements OnInit {
-  constructor(public inventoryService: InventoryService) {}
+  constructor(public inventoryService: InventoryService) { }
 
-protected balance = 0;
-protected hideAll= false;
+  protected balance = 0;
+
   ngOnInit(): void {
     this.getRecords();
   }
@@ -20,7 +20,7 @@ protected hideAll= false;
   getRecords() {
     this.inventoryService.getRecords().subscribe({
       next: (res) => {
-        this.inventoryService.records = res as Record[];
+        this.inventoryService.records = res;
       },
       error: (err) => console.error(err),
     });
@@ -29,25 +29,21 @@ protected hideAll= false;
   addRecord(form: NgForm) {
     if (this.inventoryService.selectedRecord._id) {
       this.inventoryService.updateRecord(form.value).subscribe({
-        next: (res) => 
-        {
+        next: (res) => {
           console.log(res);
-          this.inventoryService.selectedRecord =emptyReg;
-        }
-        ,
+          this.inventoryService.selectedRecord = emptyReg;
+        },
         error: (err) => console.error(err),
       });
-    } else {
-      if (confirm('Are you sure you want to create a record?')) {
-        this.inventoryService.createRecord(form.value).subscribe({
-          next: (res) => {
-            this.getRecords();
-            form.reset();
-            console.log(res);
-          },
-          error: (err) => console.error(err),
-        });
-      }
+    } else if (confirm('Are you sure you want to create a record?')) {
+      this.inventoryService.createRecord(form.value).subscribe({
+        next: (res) => {
+          this.getRecords();
+          form.reset();
+          console.log(res);
+        },
+        error: (err) => console.error(err),
+      });
     }
   }
 
@@ -77,27 +73,21 @@ protected hideAll= false;
 
     return balance;
   }
-  saveAsPdf(){
+
+  saveAsPdf() {
     const tableElement = document.querySelector('.table') as HTMLElement;
-    console.log(tableElement)
-    html2pdf()
-      .from(tableElement)
-      .set(pdfOptions)
-      .save();
-  }
-  printTable(){
-  this.hideAll = true;
-  
-  const tableElement = document.querySelector('.table') as HTMLElement;
-  const printContainer = document.createElement('div');
-  printContainer.classList.add('print-container');
-  printContainer.appendChild(tableElement.cloneNode(true));
-  document.body.appendChild(printContainer);
-  window.print();
-  this.hideAll = false;
-  document.body.removeChild(printContainer);
+    html2pdf().from(tableElement).set(pdfOptions).save();
   }
 
+  printTable() {
+    const tableElement = document.querySelector('.table') as HTMLElement;
+    const printContainer = document.createElement('div');
+    printContainer.classList.add('print-container');
+    printContainer.appendChild(tableElement.cloneNode(true));
+    document.body.appendChild(printContainer);
+    window.print();
+    document.body.removeChild(printContainer);
+  }
 }
 
 const emptyReg = {
@@ -113,3 +103,9 @@ const pdfOptions = {
   html2canvas: { scale: 2 },
   jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
 };
+
+function wait(ms: any) {
+  return new Promise((res) => {
+    setTimeout(res, ms);
+  });
+}
